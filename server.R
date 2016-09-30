@@ -25,7 +25,14 @@ shinyServer(function(input, output) {
       }
       # coordinates as input
     } else if (input$input_type == "LAT_LONG") {
-
+      
+      address_result <- geo_connect_vector(paste0(input$lat_t, ",", input$long_t))
+      # specific view parameters only if the user's input is correct
+      if ((input$long_t != "") && (input$lat_t != "") && (address_result$address != "ERROR")) {
+        center.long <- address_result$longitude
+        center.lat <- address_result$latitude
+        init.zoom <- 15
+      }
       
     }
     
