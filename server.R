@@ -12,6 +12,8 @@ shinyServer(function(input, output) {
     # input is a CSV and the file is working
     if ((input$input_type == "CSV") && (!is.null(input$csv_file))) {
       
+      my.file <- input$csv_file
+      address_result <- geo_connect_csv(my.file$datapath)
       
       # input is an address
     }else if (input$input_type == "ADDRESS") {
