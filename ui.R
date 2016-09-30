@@ -31,7 +31,11 @@ shinyUI(fluidPage(
                     '.tsv'
                   )
         )
-      )
+      ),
+      selectInput("map_tiles", "Select the display mode:", 
+                  c("Classic" = "classic",
+                    "Satellite" = "satellite",
+                    "Night" = "night"))
     ),
     
     # Show map

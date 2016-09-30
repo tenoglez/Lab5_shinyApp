@@ -39,9 +39,25 @@ shinyServer(function(input, output) {
     }
     
     address_result <- subset(address_result, address_result$address != "ERROR")
-    return(leaflet(data = address_result) %>%
-             setView(lat = center.lat, lng = center.long, zoom = init.zoom) %>%
-             addTiles() %>%
-             addMarkers(lng = ~longitude, ~latitude, popup = ~as.character(address)))
+    
+    if (input$map_tiles == "classic") {
+      return(leaflet(data = address_result) %>%
+               setView(lat = center.lat, lng = center.long, zoom = init.zoom) %>%
+               addTiles() %>%
+               addMarkers(lng = ~longitude, ~latitude, popup = ~as.character(address)))
+    } else if (input$map_tiles == "satellite") {
+      
+      return(leaflet(data = address_result) %>%
+               setView(lat = center.lat, lng = center.long, zoom = init.zoom) %>%
+               addTiles(urlTemplate="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}") %>%
+               addMarkers(lng = ~longitude, ~latitude, popup = ~as.character(address)))
+      
+    } else if (input$map_tiles == "night") {
+      
+      return(leaflet(data = address_result) %>%
+               setView(lat = center.lat, lng = center.long, zoom = init.zoom) %>%
+               addProviderTiles("NASAGIBS.ViirsEarthAtNight2012") %>%
+               addMarkers(lng = ~longitude, ~latitude, popup = ~as.character(address)))
+    }
   })
 })
